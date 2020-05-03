@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     transDataFile = sc.textFile(inFile)
     
-    # step 1 & 2: generate F-list
+    # step 1: generate F-list
     transData = transDataFile.map(lambda r: r.split())
     bigFlist = transData\
         .flatMap(lambda l: [(i, 1) for i in l])\
@@ -47,16 +47,18 @@ if __name__ == '__main__':
 
     Flist = list(map(lambda t: t[0], bigFlist))
 
-    # step 3: grouping items
+    # step 2: grouping items
     gLen = math.ceil(len(Flist) / sc.defaultParallelism)
     gMap = {t: math.floor(i / gLen) for i, t in enumerate(Flist)}
     
     groupedTrans = transData\
         .flatMap(lambda t:groupMap(gMap, t))\
         .groupByKey()\
-        .map(lambda t: (t[0], list(t[1])))\
-        .collect()
+        .map(lambda t: (t[0], list(t[1])))
     # print(groupedTrans)
+
+    # step 3: 
+    
 
     sc.stop()
     
