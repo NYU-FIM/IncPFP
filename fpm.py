@@ -103,7 +103,7 @@ class FPTree:
             if v >= self.min_sup:
                 newflist.append((k, v))
 
-        newflist.sort(key = lambda k: k[1])
+        newflist.sort(key = lambda k: k[1]) # might need to maintain the lexicographic order
         newTreeFlist = [i[0] for i in newflist]
         print("node", start)
         print("flist", newTreeFlist)
